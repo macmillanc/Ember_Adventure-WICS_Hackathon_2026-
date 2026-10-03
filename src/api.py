@@ -10,28 +10,32 @@ API_BASE_URL = "https://api.ember.to/v1"
 TARGET_CITIES = ["Edinburgh", "Glasgow", "Dundee", "Aberdeen", "Perth"]
 
 
+
+#RETURNS:
+# hubs The id, the lat and longitude 
 def fetch_hub_locations():
     """
     Fetches all Ember bus stops and filters for the main hubs 
     needed by Person 2 (Edinburgh, Glasgow, Dundee, Aberdeen, Perth).
     """
-    url = f"{API_BASE_URL}/locations/search"
+    url = f"{API_BASE_URL}/locations/search/"
     params = {"type": "STOP_AREA"} 
     
     response = requests.get(url, params=params)
     response.raise_for_status()
     all_locations = response.json()
-    
     hubs = {}
     for loc in all_locations:
         if any(city in loc.get("name", "") for city in TARGET_CITIES):
             hubs[loc["name"]] = {
                 "id": loc["id"],
-                "lat": loc.get("latitude"), 
-                "lon": loc.get("lon")
+                "lat": loc.get("lat"), 
+                "lon": loc.get("lon"),
             }
             
     return hubs
+
+#returns id based on the location given
 
 def get_id(hubs, location):
     for name, data in hubs.items():
@@ -42,6 +46,13 @@ def get_id(hubs, location):
                 return data["id"]
     return None
 
+
+
+
+#returns a dictionary
+
+# the keys are the origin id and destination id
+# the values in the dictionary are departure time, arrival time , duration in minutes and cost
 def fetch_journeys(origin_id, destination_id):
     """
     Fetches available quotes/journeys between two hub IDs for a given date.
@@ -70,14 +81,14 @@ def fetch_journeys(origin_id, destination_id):
             "departure_time": quote.get("departure_time"),
             "arrival_time": quote.get("arrival_time"),
             "duration_minutes": quote.get("duration_minutes", 0),
-            "cost": quote.get("total_price", 0.0) / 100.0  # pence to pounds
+            "cost": quote.get("total_price", 0.0) / 100.0
         })
         
     return {
         route_key: journey_list
     }
 
-
+#returns a List of dictionaries with elements of NAME, CITY, INTEREST, COST, DURATION MIN, LAT and LON
 def load_attractions_csv(filepath=None):
     """
     Loads attractions from the CSV file using the correct column headers:
@@ -111,6 +122,8 @@ def load_attractions_csv(filepath=None):
     return attractions
 
 
+#Returns the departure time, minutes and cost
+
 def get_next_bus(journeys_data, origin_id, destination_id, current_time_str):
     """
     Finds the next available bus after a given time.
@@ -140,6 +153,17 @@ def get_next_bus(journeys_data, origin_id, destination_id, current_time_str):
     valid_options.sort(key=lambda x: x["departure_time"])
     return valid_options[0]
 
+
+
+
+
+
+
+
+
+
+
+#for testing purposes, run to see how the format of everything looks
 
 if __name__ == "__main__":
     print("--- TEST 1: Fetching Live Hub Locations ---")
