@@ -20,21 +20,32 @@ def fetch_hub_locations():
     """
     url = f"{API_BASE_URL}/locations/search/"
     params = {"type": "STOP_AREA"} 
+
+    # Hardcoded coordinates since the search API omits them for these areas
+    hardcoded_coords = {
+        "Edinburgh (City Centre)": {"lat": 55.9533, "lon": -3.1883},
+        "Glasgow Bus Station": {"lat": 55.8642, "lon": -4.2518},
+        "Dundee (City Centre)": {"lat": 56.4620, "lon": -2.9707},
+        "Aberdeen (City Centre)": {"lat": 57.1497, "lon": -2.0943},
+        "Perth (City Centre)": {"lat": 56.3959, "lon": -3.4312},
+    }
     
     response = requests.get(url, params=params)
     response.raise_for_status()
     all_locations = response.json()
+    
     hubs = {}
     for loc in all_locations:
-        if any(city in loc.get("name", "") for city in TARGET_CITIES):
-            hubs[loc["name"]] = {
+        name = loc.get("name", "")
+        # Only process exact matches present in your hardcoded dictionary
+        if name in hardcoded_coords:
+            hubs[name] = {
                 "id": loc["id"],
-                "lat": loc.get("lat"), 
-                "lon": loc.get("lon"),
+                "lat": hardcoded_coords[name]["lat"],
+                "lon": hardcoded_coords[name]["lon"],
             }
             
     return hubs
-
 #returns id based on the location given
 
 def get_id(hubs, location):
