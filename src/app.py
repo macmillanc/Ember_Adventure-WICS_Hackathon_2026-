@@ -328,7 +328,47 @@ def plan():
         result_url
     )
 
+import requests
+from flask import jsonify
 
+# If you have your compiled protobuf module:
+# from proto_generated import live_vehicles_pb2
+
+@app.route("/api/live-vehicles")
+def live_vehicles():
+    api_url = "https://api.ember.to/v1/vehicles/live"
+    
+    headers = {
+        # Add your authorization header if required by Ember's API
+        # "Authorization": "Bearer YOUR_COGNITO_JWT"
+    }
+    
+    try:
+        response = requests.get(api_url, headers=headers)
+        response.raise_for_status()
+        
+        # 1. Decode the binary Protobuf response
+        # vehicle_list = live_vehicles_pb2.LiveVehicleList()
+        # vehicle_list.ParseFromString(response.content)
+        
+        # 2. Extract vehicle data into a clean JSON array
+        vehicles_data = []
+        # for vehicle in vehicle_list.vehicles:
+        #     vehicles_data.append({
+        #         "id": vehicle.vehicle_id,
+        #         "lat": vehicle.latitude,
+        #         "lon": vehicle.longitude,
+        #         "bearing": vehicle.bearing,
+        #         "trip_name": vehicle.trip_name
+        #     })
+        
+        # Example mock payload structure for testing:
+        # vehicles_data = [{"id": "bus-101", "lat": 56.4620, "lon": -2.9707, "bearing": 90, "trip_name": "Dundee to Edinburgh"}]
+        
+        return jsonify(vehicles_data)
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 # ============================================================
 # RUN
 # ============================================================
