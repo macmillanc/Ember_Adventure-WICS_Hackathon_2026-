@@ -1,72 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">!
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>Ember Bus Epic Tour Guide</title>
-</head>
+<!DOCTYPE html> <html lang="en"> <head> 
+<meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<link rel="stylesheet" href="index.css"> 
+<title>Ember Bus Epic Tour Guide</title> </head> <body>
+<h1>Ember Bus Tour Guide</h1>
 
-<body>
+<p>
+    Tell us a little about your trip and we'll help you plan your journey.
+</p>
 
-    <h1>Ember Bus Tour Guide</h1>
+<form action="loading.html" method="GET">
 
-    <p>
-        Tell us a little about your trip and we'll help you plan your journey.
-    </p>
+    <label for="starting-position">
+        <strong>Starting position</strong>
+    </label>
+    <br>
 
-    <form action="loading.html" method="GET">
+    <select id="starting-position" name="starting-position" required>
+        <option value="" disabled selected>Select a location</option>
+        <option value="Aberdeen">Aberdeen</option>
+        <option value="Dundee">Dundee</option>
+        <option value="Edinburgh">Edinburgh</option>
+        <option value="Glasgow">Glasgow</option>
+        <option value="Perth">Perth</option>
+        <option value="St Andrews">St Andrews</option>
+    </select>
 
-        <label for="starting-position">
-            <strong>Starting position</strong>
-        </label>
-        <br>
+    <br><br>
 
-        <input
-            type="text"
-            id="starting-position"
-            name="starting-position"
-            placeholder="e.g. Aberdeen"
-            required
-        >
+    <label for="budget">
+        <strong>Maximum budget (£)</strong>
+    </label>
+    <br>
 
-        <br><br>
+    <input
+        type="number"
+        id="budget"
+        name="budget"
+        min="0"
+        step="0.01"
+        placeholder="e.g. 50"
+        required
+    >
 
-        <label for="budget">
-            <strong>Maximum budget (£)</strong>
-        </label>
-        <br>
+    <br><br>
 
-        <input
-            type="number"
-            id="budget"
-            name="budget"
-            min="0"
-            step="0.01"
-            placeholder="e.g. 50"
-            required
-        >
+    <label for="interests">
+        <strong>What are you interested in?</strong>
+    </label>
+    <br>
 
-        <br><br>
+    <select id="interests" name="interests" required>
+        <option value="" disabled selected>Select an interest</option>
+        <option value="Beaches">Beaches</option>
+        <option value="History">History</option>
+        <option value="Food">Food</option>
+        <option value="Hiking">Hiking</option>
+        <option value="Nature">Nature</option>
+        <option value="Shopping">Shopping</option>
+    </select>
 
-        <label for="interests">
-            <strong>What are you interested in?</strong>
-        </label>
-        <br>
+    <br><br>
 
-        <textarea
-            id="interests"
-            name="interests"
-            rows="4"
-            placeholder="e.g. beaches, history, food, hiking..."
-        ></textarea>
+    <button type="submit">Plan My Tour</button>
 
-        <br><br>
+</form>
 
-        <button type="submit">Plan My Tour</button>
-
-    </form>
-
-</body>
-</html>
-```
+</body> </html>
