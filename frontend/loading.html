@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ember</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: #f8faf9;
+            color: #123047;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-page {
+            width: 100%;
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+        }
+
+        /* --------------------------------
+           EMBER WORDMARK
+        -------------------------------- */
+
+        .logo {
+            font-size: 46px;
+            font-weight: 700;
+            letter-spacing: -2.5px;
+
+            color: #123047;
+
+            margin-bottom: 70px;
+        }
+
+        .logo-dot {
+            display: inline-block;
+
+            width: 9px;
+            height: 9px;
+
+            margin-left: 4px;
+
+            border-radius: 50%;
+
+            background: #2da88a;
+        }
+
+
+        /* --------------------------------
+           MAIN MESSAGE
+        -------------------------------- */
+
+        .message {
+            font-size: 24px;
+            font-weight: 600;
+
+            letter-spacing: -0.5px;
+
+            color: #123047;
+
+            margin-bottom: 32px;
+        }
+
+
+        /* --------------------------------
+           LOADING LOOP
+        -------------------------------- */
+
+        .loader {
+            width: 52px;
+            height: 52px;
+
+            border-radius: 50%;
+
+            border: 5px solid #e1ebe8;
+
+            border-top-color: #287bb5;
+            border-right-color: #2da88a;
+
+            animation:
+                spin 0.9s linear infinite;
+
+            position: relative;
+        }
+
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        /* --------------------------------
+           SUBTEXT
+        -------------------------------- */
+
+        .subtext {
+            margin-top: 24px;
+
+            font-size: 15px;
+
+            color: #6d7f89;
+        }
+
+
+        /* --------------------------------
+           LITTLE BRAND ACCENT
+        -------------------------------- */
+
+        .accent {
+            width: 44px;
+            height: 3px;
+
+            margin-top: 44px;
+
+            border-radius: 999px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #287bb5,
+                    #2da88a
+                );
+        }
+
+
+        /* --------------------------------
+           MOBILE
+        -------------------------------- */
+
+        @media (max-width: 600px) {
+
+            .logo {
+                font-size: 38px;
+                margin-bottom: 55px;
+            }
+
+            .message {
+                font-size: 20px;
+            }
+
+            .loader {
+                width: 46px;
+                height: 46px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <main class="loading-page">
+
+        <div class="logo">
+            ember<span class="logo-dot"></span>
+        </div>
+
+        <div class="message">
+            Planning your journey
+        </div>
+
+        <div class="loader"></div>
+
+        <div class="subtext">
+            Finding the best way to explore Scotland
+        </div>
+
+        <div class="accent"></div>
+
+    </main>
+
+</body>
+</html>
