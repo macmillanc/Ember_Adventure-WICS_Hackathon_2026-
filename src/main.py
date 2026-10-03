@@ -955,6 +955,10 @@ def get_plan(
     # FRONTEND ROUTE
     # -----------------------------------------------------
 
+   # -----------------------------------------------------
+# FRONTEND ROUTE
+# -----------------------------------------------------
+
     best_trip = all_trips[0]
 
     route = [
@@ -964,6 +968,21 @@ def get_plan(
         }
     ]
 
+    # Outbound bus
+    route.append({
+        "type": "bus",
+        "name": f"Bus to {best_trip['destination']}",
+        "departure":
+            best_trip["outbound"]["departure"],
+        "arrival":
+            best_trip["outbound"]["arrival"],
+        "duration_minutes":
+            best_trip["outbound"]["duration_minutes"],
+        "cost":
+            best_trip["outbound"]["cost"]
+    })
+
+    # Attractions
     for attraction in best_trip["attractions"]:
 
         route.append({
@@ -980,8 +999,23 @@ def get_plan(
                 attraction["interest"]
         })
 
+    # Return bus
     route.append({
-        "type": "return",
+        "type": "bus",
+        "name": f"Bus to {starting_hub}",
+        "departure":
+            best_trip["return"]["departure"],
+        "arrival":
+            best_trip["return"]["arrival"],
+        "duration_minutes":
+            best_trip["return"]["duration_minutes"],
+        "cost":
+            best_trip["return"]["cost"]
+    })
+
+    # Finish
+    route.append({
+        "type": "finish",
         "name": starting_hub
     })
 

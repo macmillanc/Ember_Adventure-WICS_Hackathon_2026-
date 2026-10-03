@@ -1,31 +1,43 @@
 id,destination,attraction,interests,cost_gbp,duration_minutes,latitude,longitude
-edinburgh_01,Edinburgh,Edinburgh Castle,"history,culture,architecture",21.0,120,55.9486,-3.1999
-edinburgh_02,Edinburgh,National Museum of Scotland,"history,art,culture,science",0.0,120,55.947,-3.1883
-edinburgh_03,Edinburgh,Arthur's Seat,"nature,views,walking",0.0,120,55.944,-3.1618
-edinburgh_04,Edinburgh,Royal Botanic Garden Edinburgh,"nature,science",0.0,90,55.9667,-3.2086
-edinburgh_05,Edinburgh,Scottish National Gallery,"art,culture",0.0,90,55.9508,-3.196
+edinburgh_01,Edinburgh,Edinburgh Castle,"history,culture,architecture,views",21.0,120,55.9486,-3.1999
+edinburgh_02,Edinburgh,National Museum of Scotland,"history,art,culture,science",0.0,120,55.9470,-3.1883
+edinburgh_03,Edinburgh,Arthur's Seat,"hiking,nature,views,walking",0.0,120,55.9440,-3.1618
+edinburgh_04,Edinburgh,Royal Botanic Garden Edinburgh,"nature,science,walking",0.0,90,55.9667,-3.2086
+edinburgh_05,Edinburgh,Scottish National Gallery,"art,culture",0.0,90,55.9508,-3.1960
+edinburgh_06,Edinburgh,Princes Street & Old Town,"shopping,food,culture,history,walking",0.0,120,55.9510,-3.1950
+edinburgh_07,Edinburgh,Portobello Beach,"beaches,nature,walking,views",0.0,120,55.9500,-3.1150
 glasgow_01,Glasgow,Kelvingrove Art Gallery and Museum,"art,culture,history,science",0.0,120,55.8687,-4.2907
-glasgow_02,Glasgow,Riverside Museum,"history,culture,transport",0.0,90,55.8657,-4.3066
+glasgow_02,Glasgow,Riverside Museum,"history,culture,science",0.0,90,55.8657,-4.3066
 glasgow_03,Glasgow,Glasgow Cathedral,"history,culture,architecture",0.0,60,55.8611,-4.2344
-glasgow_04,Glasgow,Glasgow Botanic Gardens,"nature,walking",0.0,75,55.8781,-4.29
-glasgow_05,Glasgow,Gallery of Modern Art,"art,culture",0.0,75,55.8609,-4.2556
-stirling_01,Stirling,Stirling Castle,"history,culture,architecture",19.0,120,56.1239,-3.9456
-stirling_02,Stirling,National Wallace Monument,"history,views,walking",12.0,90,56.1308,-3.9211
-stirling_03,Stirling,Stirling Smith Art Gallery and Museum,"art,culture,history",0.0,75,56.1173,-3.9364
-stirling_04,Stirling,Old Town Jail,"history,culture",9.0,60,56.1186,-3.9406
+glasgow_04,Glasgow,Glasgow Botanic Gardens,"nature,walking,science",0.0,75,55.8781,-4.2900
+glasgow_05,Glasgow,Buchanan Street,"shopping,food,culture,walking",0.0,120,55.8642,-4.2520
+glasgow_06,Glasgow,George Square,"history,culture,architecture,walking",0.0,60,55.8617,-4.2505
+glasgow_07,Glasgow,Glasgow Green,"nature,walking,views",0.0,90,55.8539,-4.2469
+stirling_01,Stirling,Stirling Castle,"history,culture,architecture,views",19.0,120,56.1239,-3.9456
+stirling_02,Stirling,National Wallace Monument,"history,views,hiking,walking",12.0,90,56.1308,-3.9211
+stirling_03,Stirling,Stirling Smith Art Gallery and Museum,"art,culture,history,science",0.0,75,56.1173,-3.9364
+stirling_04,Stirling,Old Town Jail,"history,culture,architecture",9.0,60,56.1186,-3.9406
 stirling_05,Stirling,King's Park,"nature,walking,views",0.0,60,56.1099,-3.9382
-dundee_01,Dundee,V&A Dundee,"art,culture,design",0.0,90,56.4579,-2.9666
-dundee_02,Dundee,Dundee Law,"nature,views,walking,history",0.0,60,56.4694,-2.99
+stirling_06,Stirling,Stirling Old Town,"history,culture,architecture,food,shopping,walking",0.0,120,56.1190,-3.9360
+stirling_07,Stirling,King Street & City Centre,"shopping,food,culture,walking",0.0,90,56.1198,-3.9370
+dundee_01,Dundee,V&A Dundee,"art,culture,science,architecture",0.0,90,56.4579,-2.9666
+dundee_02,Dundee,Dundee Law,"nature,views,hiking,walking,history",0.0,60,56.4694,-2.9900
 dundee_03,Dundee,Discovery Point,"history,culture,science",13.5,90,56.4554,-2.9667
-dundee_04,Dundee,McManus Art Gallery & Museum,"art,culture,history",0.0,90,56.4617,-2.9708
-dundee_05,Dundee,Camperdown Country Park,"nature,walking,family",0.0,90,56.4828,-3.0564
-aberdeen_01,Aberdeen,Aberdeen Maritime Museum,"history,culture,science",0.0,75,57.1474,-2.094
-aberdeen_02,Aberdeen,Aberdeen Art Gallery,"art,culture",0.0,90,57.1497,-2.097
-aberdeen_03,Aberdeen,Duthie Park,"nature,walking",0.0,90,57.1347,-2.1072
-aberdeen_04,Aberdeen,Aberdeen Beach,"nature,walking,views",0.0,90,57.149,-2.079
-aberdeen_05,Aberdeen,Old Aberdeen,"history,culture,architecture,walking",0.0,90,57.1655,-2.101
-perth_01,Perth,Perth Museum,"history,culture,art",0.0,90,56.3977,-3.4286
-perth_02,Perth,Scone Palace,"history,culture,nature",18.0,120,56.4194,-3.4367
+dundee_04,Dundee,McManus Art Gallery & Museum,"art,culture,history,science",0.0,90,56.4617,-2.9708
+dundee_05,Dundee,Camperdown Country Park,"nature,walking,hiking",0.0,90,56.4828,-3.0564
+dundee_06,Dundee,Overgate Shopping Centre,"shopping,food,culture,walking",0.0,90,56.4595,-2.9740
+dundee_07,Dundee,City Quay,"food,shopping,walking,views",0.0,90,56.4572,-2.9585
+aberdeen_01,Aberdeen,Aberdeen Maritime Museum,"history,culture,science",0.0,75,57.1474,-2.0940
+aberdeen_02,Aberdeen,Aberdeen Art Gallery,"art,culture,history,architecture",0.0,90,57.1497,-2.0970
+aberdeen_03,Aberdeen,Duthie Park,"nature,walking,views",0.0,90,57.1347,-2.1072
+aberdeen_04,Aberdeen,Aberdeen Beach,"beaches,nature,walking,views",0.0,120,57.1490,-2.0790
+aberdeen_05,Aberdeen,Old Aberdeen,"history,culture,architecture,walking",0.0,90,57.1655,-2.1010
+aberdeen_06,Aberdeen,Union Square & City Centre,"shopping,food,culture,walking",0.0,120,57.1445,-2.0985
+aberdeen_07,Aberdeen,Johnston Gardens,"nature,walking,views",0.0,75,57.1440,-2.1300
+perth_01,Perth,Perth Museum,"history,culture,art,science",0.0,90,56.3977,-3.4286
+perth_02,Perth,Scone Palace,"history,culture,nature,architecture",18.0,120,56.4194,-3.4367
 perth_03,Perth,Perth Art Gallery,"art,culture",0.0,75,56.3972,-3.4305
-perth_04,Perth,Kinnoull Hill,"nature,walking,views",0.0,120,56.3995,-3.384
-perth_05,Perth,North Inch,"nature,walking,family",0.0,75,56.4019,-3.4453
+perth_04,Perth,Kinnoull Hill,"nature,walking,hiking,views",0.0,120,56.3995,-3.3840
+perth_05,Perth,North Inch,"nature,walking,hiking,views",0.0,75,56.4019,-3.4453
+perth_06,Perth,Perth High Street,"shopping,food,culture,walking",0.0,120,56.3970,-3.4300
+perth_07,Perth,St John's Kirk,"history,culture,architecture",0.0,60,56.3968,-3.4265
