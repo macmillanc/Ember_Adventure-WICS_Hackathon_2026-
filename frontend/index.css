@@ -1,0 +1,99 @@
+/* Ember Bus Company - Form Styles */
+
+body {
+    margin: 0;
+    padding: 40px 20px;
+    background-color: #f5efe6;
+    color: #292522;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Form container */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 35px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Main heading */
+h1 {
+    margin-bottom: 10px;
+    color: #c94b2c;
+    font-size: 32px;
+}
+
+/* Paragraphs */
+p {
+    color: #5c554f;
+    line-height: 1.6;
+}
+
+/* Form labels */
+label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 7px;
+    color: #292522;
+    font-weight: bold;
+}
+
+/* Text boxes, dropdowns and other inputs */
+input,
+select,
+textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #d8d0c7;
+    border-radius: 6px;
+    background-color: #fffdf9;
+    color: #292522;
+    font-size: 16px;
+}
+
+/* Highlight fields when selected */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #c94b2c;
+    box-shadow: 0 0 0 3px rgba(201, 75, 44, 0.15);
+}
+
+/* Submit button */
+button,
+input[type="submit"] {
+    margin-top: 25px;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 6px;
+    background-color: #c94b2c;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Button hover effect */
+button:hover,
+input[type="submit"]:hover {
+    background-color: #a83d25;
+}
+
+/* Smaller screens */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    form {
+        padding: 25px 20px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+}

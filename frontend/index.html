@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link  rel="stylesheet" href="index.css">
+    <title>Ember Bus Epic Tour Guide</title>
+</head>
+
+<body>
+
+    <h1>Ember Bus Tour Guide</h1>
+
+    <p>
+        Tell us a little about your trip and we'll help you plan your journey.
+    </p>
+
+    <form>
+
+        <label for="starting-position">
+            <strong>Starting position</strong>
+        </label>
+        <br>
+        <input
+            type="text"
+            id="starting-position"
+            name="starting-position"
+            placeholder="e.g. Aberdeen"
+            required
+        >
+
+        <br><br>
+
+        <label for="budget">
+            <strong>Maximum budget (£)</strong>
+        </label>
+        <br>
+        <input
+            type="number"
+            id="budget"
+            name="budget"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 50"
+            required
+        >
+
+        <br><br>
+
+        <label for="interests">
+            <strong>What are you interested in?</strong>
+        </label>
+        <br>
+        <textarea
+            id="interests"
+            name="interests"
+            rows="4"
+            placeholder="e.g. beaches, history, food, hiking..."
+        ></textarea>
+
+        <br><br>
+
+        <button type="submit">Plan My Tour</button>
+
+    </form>
+
+</body>
+</html>
