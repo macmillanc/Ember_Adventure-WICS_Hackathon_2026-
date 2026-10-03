@@ -15,7 +15,7 @@ def fetch_hub_locations():
     Fetches all Ember bus stops and filters for the main hubs 
     needed by Person 2 (Edinburgh, Glasgow, Dundee, Aberdeen, Perth).
     """
-    url = f"{API_BASE_URL}/locations/"
+    url = f"{API_BASE_URL}/locations/search"
     params = {"type": "STOP_AREA"} 
     
     response = requests.get(url, params=params)
@@ -27,12 +27,20 @@ def fetch_hub_locations():
         if any(city in loc.get("name", "") for city in TARGET_CITIES):
             hubs[loc["name"]] = {
                 "id": loc["id"],
-                "lat": loc.get("lat"), 
+                "lat": loc.get("latitude"), 
                 "lon": loc.get("lon")
             }
             
     return hubs
 
+def get_id(hubs, location):
+    for name, data in hubs.items():
+        if location.lower() in name.lower() and "city centre" in name.lower():
+            return data["id"]
+    for name, data in hubs.items():
+            if location.lower() in name.lower():
+                return data["id"]
+    return None
 
 def fetch_journeys(origin_id, destination_id):
     """
@@ -177,3 +185,7 @@ if __name__ == "__main__":
         print(f"Next bus found! Leaves at {next_bus['departure_time']} and costs £{next_bus['cost']}")
     else:
         print("No upcoming buses found.")
+
+
+    print("id is:")
+    print(get_id(fetch_hub_locations(), "Aberdeen"))
