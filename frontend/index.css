@@ -1,112 +1,301 @@
-/* Ember Bus Company - Form Styles */
+
+
+:root {
+    --ember-dark: #18201d;
+    --ember-dark-soft: #25312d;
+    --ember-green: #71c7a3;
+    --ember-green-dark: #4ea982;
+    --ember-green-light: #dff3e9;
+
+    --background: #f3f5f3;
+    --surface: #ffffff;
+
+    --text: #18201d;
+    --text-muted: #5d6965;
+
+    --border: #d4ddd8;
+    --input-background: #fbfcfb;
+}
+
 
 body {
     margin: 0;
     padding: 40px 20px;
-    background-color: #f5efe6;
-    color: #292522;
-    font-family: Arial, Helvetica, sans-serif;
+
+    background-color: var(--background);
+
+    color: var(--text);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
+
+
+/* =================================================
+   FORM
+   ================================================= */
 
 form {
     max-width: 600px;
+
     margin: 0 auto;
+
     padding: 35px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+
+    background-color: var(--surface);
+
+    border-radius: 14px;
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 8px 25px rgba(24, 32, 29, 0.10);
 }
+
+
+/* =================================================
+   HEADING
+   ================================================= */
 
 h1 {
     text-align: center;
     margin-bottom: 10px;
-    color: #c94b2c;
+    color: #e8587a;
     font-size: 32px;
+    font-weight: 700;
 }
 
+
 p {
-    color: #5c554f;
+    color: var(--text-muted);
+    text-align: center;
     line-height: 1.6;
+
     max-width: 600px;
-    margin: 0 auto 25px auto;
+
+    margin:
+        0
+        auto
+        25px
+        auto;
 }
+
+
+/* =================================================
+   LABELS
+   ================================================= */
 
 label {
     display: block;
+
     margin-top: 20px;
+
     margin-bottom: 7px;
-    color: #292522;
-    font-weight: bold;
+
+    color: var(--text);
+
+    font-weight: 700;
 }
+
+
+/* =================================================
+   INPUTS
+   ================================================= */
 
 input:not([type="checkbox"]),
 select,
 textarea {
     box-sizing: border-box;
+
     width: 100%;
+
     padding: 12px;
-    border: 2px solid #d8d0c7;
-    border-radius: 6px;
-    background-color: #fffdf9;
-    color: #292522;
+
+    border:
+        2px solid var(--border);
+
+    border-radius: 8px;
+
+    background-color:
+        var(--input-background);
+
+    color: var(--text);
+
     font-size: 16px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
 }
+
 
 select[multiple] {
     min-height: 160px;
 }
 
+
+/* =================================================
+   FOCUS
+   ================================================= */
+
 input:not([type="checkbox"]):focus,
 select:focus,
 textarea:focus {
     outline: none;
-    border-color: #c94b2c;
-    box-shadow: 0 0 0 3px rgba(201, 75, 44, 0.15);
+
+    border-color:
+        var(--ember-green);
+
+    background-color:
+        #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(113, 199, 163, 0.20);
 }
+
+
+/* =================================================
+   CHECKBOX
+   ================================================= */
 
 .checkbox-label {
     display: flex;
+
     align-items: center;
+
     gap: 8px;
+
     margin-top: 10px;
+
+    color: var(--text-muted);
+
     font-weight: normal;
 }
 
+
 .checkbox-label input {
     width: auto;
+
+    accent-color:
+        var(--ember-green-dark);
 }
+
+
+/* =================================================
+   BUTTON
+   ================================================= */
 
 button,
 input[type="submit"] {
+    display: block;
+
     margin-top: 25px;
-    padding: 14px 25px;
+    margin-left: auto;
+    margin-right: auto;
+
+    padding:
+        14px
+        25px;
+
     border: none;
-    border-radius: 6px;
-    background-color: #c94b2c;
-    color: white;
+    border-radius: 8px;
+
+    background-color:
+        var(--ember-green);
+
+    color:
+        var(--ember-dark);
+
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
+
     cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.1s ease,
+        box-shadow 0.2s ease;
 }
+
 
 button:hover,
 input[type="submit"]:hover {
-    background-color: #a83d25;
+    background-color:
+        var(--ember-green-dark);
+
+    color: white;
+
+    box-shadow:
+        0 4px 12px
+        rgba(78, 169, 130, 0.25);
 }
 
+
 button:active {
-    transform: translateY(1px);
+    transform:
+        translateY(1px);
 }
+
+
+/* =================================================
+   SELECTED OPTIONS
+   ================================================= */
+
+select option:checked {
+    background-color:
+        var(--ember-green);
+
+    color:
+        var(--ember-dark);
+}
+
+
+/* =================================================
+   PLACEHOLDERS
+   ================================================= */
+
+input::placeholder,
+textarea::placeholder {
+    color: #89938f;
+}
+
+
+/* =================================================
+   DISABLED
+   ================================================= */
+
+input:disabled {
+    background-color: #edf1ef;
+
+    color: #929b97;
+
+    cursor: not-allowed;
+}
+
+
+/* =================================================
+   MOBILE
+   ================================================= */
 
 @media (max-width: 600px) {
 
     body {
-        padding: 20px 10px;
+        padding:
+            20px
+            10px;
     }
 
+
     form {
-        padding: 25px 20px;
+        padding:
+            25px
+            20px;
     }
+
 
     h1 {
         font-size: 26px;

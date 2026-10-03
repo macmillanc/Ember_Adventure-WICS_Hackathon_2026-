@@ -276,9 +276,12 @@ def plan():
 
     if "error" in result:
 
-        return (
-            result["error"],
-            400
+        error_params = urlencode({
+            "reason": result["error"]
+        })
+
+        return redirect(
+            "/no_trip.html?" + error_params
         )
 
 
