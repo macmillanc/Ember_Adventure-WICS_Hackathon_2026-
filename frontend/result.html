@@ -10,25 +10,32 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Your Ember Bus Route
-    </title>
+    <title>Your Ember Bus Route</title>
+
+
+    <!-- =================================================
+         LEAFLET
+         ================================================= -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""
+    >
+
 
     <style>
 
-        * {
-            box-sizing: border-box;
-        }
+        /* =================================================
+           PAGE
+           ================================================= */
 
+        html,
         body {
             margin: 0;
+            padding: 0;
 
-            min-height: 100vh;
-
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
+            min-height: 100%;
 
             background-color: #d6bea0;
 
@@ -38,11 +45,28 @@
                 serif;
         }
 
+
+        body {
+            min-height: 100vh;
+            padding: 30px 0;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        /* =================================================
+           POSTCARD
+           ================================================= */
+
         .postcard {
             width: 96%;
+
             max-width: 1500px;
 
-            min-height: 800px;
+            margin: 0 auto;
 
             background-color: #f8efd9;
 
@@ -50,7 +74,7 @@
 
             outline: 3px solid #8b5e3c;
 
-            padding: 65px;
+            padding: 45px 65px;
 
             box-shadow:
                 15px 15px 30px
@@ -58,6 +82,7 @@
 
             position: relative;
         }
+
 
         .postcard::before {
             content: "";
@@ -69,241 +94,416 @@
             right: 25px;
             bottom: 25px;
 
-            border: 3px dashed #c49a6c;
+            border:
+                3px dashed #c49a6c;
 
             pointer-events: none;
         }
 
+
         h1 {
             text-align: center;
 
-            font-size: 55px;
+            font-size: 45px;
 
             color: #b64b2a;
 
-            margin: 10px 0 5px;
+            margin:
+                10px
+                0
+                5px;
 
             letter-spacing: 3px;
         }
 
+
         .subtitle {
             text-align: center;
 
-            font-size: 22px;
+            font-size: 18px;
 
             color: #70513c;
 
-            margin-bottom: 100px;
+            margin-bottom: 30px;
         }
 
 
-        /* ROUTE */
+        /* =================================================
+           MAP
+           ================================================= */
 
-        .route-container {
+        .map-wrapper {
+            width: 100%;
+            height: 380px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            border:
+                4px solid #8b5e3c;
+
+            border-radius: 8px;
+
+            margin-bottom: 35px;
+
+            background: #ddd;
+        }
+
+
+        #map {
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            width: 100%;
+            height: 100%;
+        }
+
+
+        /*
+         * Leaflet must use its normal content-box model.
+         * Keep the global postcard box-sizing rules away
+         * from the Leaflet internals.
+         */
+
+        #map.leaflet-container,
+        #map.leaflet-container * {
+            box-sizing: content-box;
+        }
+
+
+        #map.leaflet-container {
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            background: #ddd;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+
+        #map .leaflet-tile {
+            width: 256px !important;
+            height: 256px !important;
+
+            max-width: none !important;
+            max-height: none !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+            border: 0 !important;
+        }
+
+
+        #map .leaflet-tile-container img {
+            width: 256px !important;
+            height: 256px !important;
+
+            max-width: none !important;
+            max-height: none !important;
+        }
+
+
+        /* =================================================
+           ROUTE
+           ================================================= */
+
+        .route-wrapper {
             width: 100%;
 
             overflow-x: auto;
             overflow-y: hidden;
 
-            padding: 10px 50px 35px 10px;
-
-            -webkit-overflow-scrolling:
-                touch;
+            padding:
+                15px
+                50px
+                35px
+                15px;
         }
 
+
         .route {
-            min-width: 1100px;
-
-            width: max-content;
-
             position: relative;
 
             display: flex;
 
-            align-items: flex-start;
+            width: max-content;
 
-            padding: 0 50px 0 30px;
+            min-width: 1100px;
+
+            padding:
+                0
+                60px;
         }
 
 
-        /* LINE */
+        /* =================================================
+           ARROW LINE
+           ================================================= */
 
-        .route-line {
+        .route-arrow-line {
             position: absolute;
 
-            left: 30px;
-            right: 50px;
+            left: 60px;
+            right: 60px;
 
             top: 85px;
 
-            height: 10px;
+            height: 8px;
 
             background-color: #b64b2a;
 
             border-radius: 10px;
+
+            z-index: 1;
         }
 
-        .route-line::after {
+
+        .route-arrow-line::after {
             content: "";
 
             position: absolute;
 
-            right: -35px;
+            right: -42px;
 
-            top: -15px;
+            top: -16px;
 
             width: 0;
             height: 0;
 
-            border-top: 20px solid transparent;
-            border-bottom: 20px solid transparent;
+            border-top:
+                20px solid transparent;
 
-            border-left: 40px solid #b64b2a;
+            border-bottom:
+                20px solid transparent;
+
+            border-left:
+                45px solid #b64b2a;
         }
 
 
-        /* ROUTE ITEMS */
+        /* =================================================
+           ROUTE ITEM
+           ================================================= */
 
         .route-item {
+            flex: 0 0 190px;
+
             position: relative;
-
-            flex: 1;
-
-            min-width: 150px;
 
             text-align: center;
 
             z-index: 5;
         }
 
+
         .route-name {
-            min-height: 50px;
+            height: 52px;
 
             padding: 0 8px;
 
-            font-size: 19px;
+            color: #493527;
+
+            font-size: 18px;
 
             font-weight: bold;
 
-            color: #493527;
+            line-height: 1.2;
+
+            overflow-wrap: break-word;
         }
 
 
-        /* STOP */
+        /* =================================================
+           DOT
+           ================================================= */
 
-        .stop {
+        .route-dot {
             width: 34px;
             height: 34px;
 
-            margin: 18px auto 18px;
+            margin:
+                16px
+                auto
+                16px;
+
+            border:
+                7px solid #b64b2a;
+
+            border-radius: 50%;
 
             background-color: #f8efd9;
 
-            border: 7px solid #b64b2a;
+            position: relative;
 
-            border-radius: 50%;
+            z-index: 10;
         }
 
 
-        /* DETAILS */
+        /* =================================================
+           DETAILS
+           ================================================= */
 
-        .route-detail {
-            min-height: 75px;
+        .route-details {
+            min-height: 92px;
 
-            padding: 0 6px;
+            color: #70513c;
 
             font-size: 14px;
 
             line-height: 1.4;
 
-            color: #70513c;
+            padding: 0 8px;
         }
 
-        .route-detail strong {
+
+        .route-details strong {
             color: #b64b2a;
         }
 
 
-        .bus-icon {
+        .bus-symbol {
             font-size: 24px;
         }
 
 
-        /* TRIP INFORMATION */
+        .walk-symbol {
+            font-size: 21px;
+        }
 
-        .trip-info {
-            margin-top: 45px;
 
+        .wait-symbol {
+            font-size: 20px;
+        }
+
+
+        /* =================================================
+           REMAINING TIME / MONEY
+           ================================================= */
+
+        .resource-left {
+            margin-top: 8px;
+
+            padding-top: 9px;
+
+            border-top:
+                1px solid #c49a6c;
+
+            color: #70513c;
+
+            line-height: 1.35;
+        }
+
+
+        .resource-label {
+            font-size: 9px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            color: #8b5e3c;
+        }
+
+
+        .resource-value {
+            font-size: 13px;
+
+            font-weight: bold;
+
+            color: #b64b2a;
+
+            margin-bottom: 4px;
+        }
+
+
+        /* =================================================
+           SUMMARY
+           ================================================= */
+
+        .summary {
             display: flex;
+
+            flex-wrap: wrap;
 
             justify-content: center;
 
-            gap: 55px;
+            gap: 50px;
+
+            margin-top: 25px;
+
+            color: #493527;
+
+            font-size: 18px;
+
+            line-height: 1.5;
+        }
+
+
+        .summary strong {
+            color: #b64b2a;
+        }
+
+
+        .totals {
+            display: flex;
 
             flex-wrap: wrap;
+
+            justify-content: center;
+
+            gap: 50px;
+
+            margin-top: 20px;
+
+            color: #493527;
 
             font-size: 19px;
 
-            color: #493527;
+            line-height: 1.5;
         }
 
-        .trip-info strong {
+
+        .totals strong {
             color: #b64b2a;
         }
 
 
-        /* REMAINING */
+        /* =================================================
+           BUTTON
+           ================================================= */
 
-        .remaining-info {
-            margin-top: 25px;
-
-            display: flex;
-
-            justify-content: center;
-
-            gap: 55px;
-
-            flex-wrap: wrap;
-
-            font-size: 20px;
-
-            color: #493527;
-        }
-
-        .remaining-info strong {
-            color: #b64b2a;
-        }
-
-
-        /* ERROR */
-
-        .error {
-            text-align: center;
-
-            font-size: 24px;
-
-            color: #493527;
-
-            padding: 50px;
-        }
-
-
-        /* BUTTON */
-
-        button {
+        .button {
             display: block;
 
-            margin: 45px auto 0;
+            margin:
+                30px
+                auto
+                0;
 
-            padding: 15px 35px;
-
-            background-color: #b64b2a;
-
-            color: white;
+            padding:
+                15px
+                35px;
 
             border: none;
 
             border-radius: 6px;
+
+            background-color: #b64b2a;
+
+            color: white;
 
             font-family:
                 Georgia,
@@ -315,25 +515,77 @@
             cursor: pointer;
         }
 
-        button:hover {
+
+        .button:hover {
             background-color: #8f3820;
         }
 
 
+        /* =================================================
+           ERROR
+           ================================================= */
+
+        .error {
+            text-align: center;
+
+            color: #493527;
+
+            font-size: 24px;
+
+            padding: 50px;
+        }
+
+
+        /* =================================================
+           LIVE BUS ICON
+           ================================================= */
+
+        .live-bus-icon {
+            background:
+                transparent !important;
+
+            border:
+                none !important;
+        }
+
+
+        /* =================================================
+           MOBILE
+           ================================================= */
+
         @media (max-width: 800px) {
 
             .postcard {
-                padding: 40px 25px;
+                padding:
+                    35px
+                    20px;
             }
+
 
             h1 {
-                font-size: 38px;
+                font-size: 36px;
             }
 
-            .subtitle {
-                font-size: 18px;
 
-                margin-bottom: 70px;
+            .subtitle {
+                font-size: 17px;
+            }
+
+
+            .map-wrapper {
+                height: 300px;
+            }
+
+
+            .summary,
+            .totals {
+                flex-direction: column;
+
+                gap: 8px;
+
+                align-items: center;
+
+                text-align: center;
             }
 
         }
@@ -345,6 +597,7 @@
 
 <body>
 
+
 <div class="postcard">
 
 
@@ -353,124 +606,84 @@
     </h1>
 
 
-    <p class="subtitle">
+    <div class="subtitle">
         Your Ember Bus adventure
-    </p>
+    </div>
 
 
-    <div class="route-container">
+    <!-- =================================================
+         MAP
+         ================================================= -->
+
+    <div class="map-wrapper">
+
+        <div id="map"></div>
+
+    </div>
+
+
+    <!-- =================================================
+         ROUTE
+         ================================================= -->
+
+    <div class="route-wrapper">
 
         <div
             class="route"
             id="route"
         >
 
-            <div class="route-line"></div>
+            <div
+                class="route-arrow-line"
+            ></div>
 
         </div>
 
     </div>
 
 
-    <div class="trip-info">
+    <!-- =================================================
+         SUMMARY
+         ================================================= -->
 
-        <div>
-
-            <strong>
-                Interest:
-            </strong>
-
-            <span id="interest"></span>
-
-        </div>
+    <div
+        class="summary"
+        id="summary"
+    ></div>
 
 
-        <div>
-
-            <strong>
-                Available Time:
-            </strong>
-
-            <span id="available-time"></span>
-
-        </div>
-
-
-        <div>
-
-            <strong>
-                Budget:
-            </strong>
-
-            <span id="budget"></span>
-
-        </div>
-
-    </div>
-
-
-    <div class="remaining-info">
-
-        <div>
-
-            <strong>
-                Total Time:
-            </strong>
-
-            <span id="time-used"></span>
-
-        </div>
-
-
-        <div>
-
-            <strong>
-                Time Left:
-            </strong>
-
-            <span id="time-left"></span>
-
-        </div>
-
-
-        <div>
-
-            <strong>
-                Total Cost:
-            </strong>
-
-            <span id="cost-used"></span>
-
-        </div>
-
-
-        <div>
-
-            <strong>
-                Cost Left:
-            </strong>
-
-            <span id="cost-left"></span>
-
-        </div>
-
-    </div>
+    <div
+        class="totals"
+        id="totals"
+    ></div>
 
 
     <button
-        onclick="window.location.href='index.html'"
+        class="button"
+        onclick="window.location.href='/'"
     >
         Plan Another Trip
     </button>
 
+
 </div>
+
+
+<!-- =====================================================
+     LEAFLET JAVASCRIPT
+     ===================================================== -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin=""
+></script>
 
 
 <script>
 
-    /*
-     * GET DATA FROM PYTHON
-     */
+    /* =====================================================
+       READ URL DATA
+       ===================================================== */
 
     const params =
         new URLSearchParams(
@@ -478,42 +691,79 @@
         );
 
 
-    const routeData =
-        JSON.parse(
-            params.get("route")
-            || "[]"
-        );
+    let routeData = [];
 
+    let trips = [];
 
-    const trips =
-        JSON.parse(
-            params.get("trips")
-            || "[]"
-        );
+    let interests = [];
 
-
-    const interests =
-        JSON.parse(
-            params.get("interests")
-            || "[]"
-        );
-
-
-    const budgetValue =
+    let budget =
         params.get("budget")
         || "0";
 
-
-    const maxTime =
+    let maxTime =
         Number(
             params.get("max_time")
-            || "0"
+            || 0
         );
 
 
-    /*
-     * BEST TRIP
-     */
+    try {
+
+        routeData =
+            JSON.parse(
+                params.get("route")
+                || "[]"
+            );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Could not parse route:",
+            error
+        );
+
+    }
+
+
+    try {
+
+        trips =
+            JSON.parse(
+                params.get("trips")
+                || "[]"
+            );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Could not parse trips:",
+            error
+        );
+
+    }
+
+
+    try {
+
+        interests =
+            JSON.parse(
+                params.get("interests")
+                || "[]"
+            );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Could not parse interests:",
+            error
+        );
+
+    }
+
 
     const trip =
         trips.length > 0
@@ -521,9 +771,13 @@
             : null;
 
 
-    /*
-     * FORMAT TIME
-     */
+    const unlimitedBudget =
+        budget === "Unlimited";
+
+
+    /* =====================================================
+       FORMAT HELPERS
+       ===================================================== */
 
     function formatTime(minutes) {
 
@@ -536,13 +790,16 @@
                 )
             );
 
+
         const hours =
             Math.floor(
                 minutes / 60
             );
 
+
         const mins =
             minutes % 60;
+
 
         if (hours === 0) {
 
@@ -550,11 +807,13 @@
 
         }
 
+
         if (mins === 0) {
 
             return `${hours} hr`;
 
         }
+
 
         return (
             `${hours} hr ${mins} min`
@@ -562,10 +821,6 @@
 
     }
 
-
-    /*
-     * FORMAT MONEY
-     */
 
     function formatMoney(value) {
 
@@ -576,18 +831,27 @@
     }
 
 
-    /*
-     * FORMAT CLOCK TIME
-     */
-
     function formatClockTime(value) {
 
         if (!value) {
             return "";
         }
 
+
         const date =
             new Date(value);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return "";
+
+        }
+
 
         return date.toLocaleTimeString(
             "en-GB",
@@ -600,10 +864,6 @@
     }
 
 
-    /*
-     * HAVERSINE DISTANCE
-     */
-
     function haversineDistance(
         lat1,
         lon1,
@@ -611,27 +871,26 @@
         lon2
     ) {
 
-        const earthRadius = 6371;
+        const earthRadius =
+            6371;
+
 
         const toRadians =
             degrees =>
                 degrees * Math.PI / 180;
+
 
         const dLat =
             toRadians(
                 lat2 - lat1
             );
 
+
         const dLon =
             toRadians(
                 lon2 - lon1
             );
 
-        const latitude1 =
-            toRadians(lat1);
-
-        const latitude2 =
-            toRadians(lat2);
 
         const a =
             Math.sin(
@@ -640,79 +899,91 @@
 
             +
 
-            Math.cos(latitude1)
-            * Math.cos(latitude2)
-            * Math.sin(
+            Math.cos(
+                toRadians(lat1)
+            )
+            *
+            Math.cos(
+                toRadians(lat2)
+            )
+            *
+            Math.sin(
                 dLon / 2
             ) ** 2;
 
+
         const c =
-            2 * Math.atan2(
+            2 *
+            Math.atan2(
                 Math.sqrt(a),
                 Math.sqrt(1 - a)
             );
+
 
         return earthRadius * c;
 
     }
 
 
-    /*
-     * WALKING TIME
-     */
-
     function walkingTime(
         distanceKm
     ) {
 
-        const walkingSpeed = 5;
-
         return (
             distanceKm
-            / walkingSpeed
+            / 5
             * 60
         );
 
     }
 
 
-    /*
-     * BASIC INFORMATION
-     */
+    /* =====================================================
+       SUMMARY
+       ===================================================== */
 
     document.getElementById(
-        "interest"
-    ).textContent =
-        interests.join(", ");
+        "summary"
+    ).innerHTML = `
+
+        <div>
+            <strong>
+                Interest:
+            </strong>
+
+            ${
+                interests.join(", ")
+            }
+        </div>
+
+        <div>
+            <strong>
+                Available Time:
+            </strong>
+
+            ${
+                formatTime(maxTime)
+            }
+        </div>
+
+        <div>
+            <strong>
+                Budget:
+            </strong>
+
+            ${
+                unlimitedBudget
+                    ? "£Unlimited"
+                    : "£" + formatMoney(budget)
+            }
+        </div>
+
+    `;
 
 
-    document.getElementById(
-        "available-time"
-    ).textContent =
-        formatTime(maxTime);
-
-
-    /*
-     * BUDGET
-     */
-
-    const unlimitedBudget =
-        budgetValue === "Unlimited";
-
-
-    document.getElementById(
-        "budget"
-    ).textContent =
-        unlimitedBudget
-            ? "£Unlimited"
-            : "£" + formatMoney(
-                budgetValue
-            );
-
-
-    /*
-     * ROUTE
-     */
+    /* =====================================================
+       BUILD ROUTE
+       ===================================================== */
 
     const route =
         document.getElementById(
@@ -724,9 +995,9 @@
 
         route.innerHTML =
             `
-            <div class="error">
-                No route could be found.
-            </div>
+                <div class="error">
+                    No valid trip could be found.
+                </div>
             `;
 
     }
@@ -736,26 +1007,44 @@
 
 
         /*
+         * -----------------------------------------------
          * START
+         * -----------------------------------------------
          */
 
+        const startName =
+            routeData.length > 0
+                ? routeData[0].name
+                : "Start";
+
+
         itinerary.push({
-            type: "start",
+
+            type:
+                "start",
 
             name:
-                routeData.length > 0
-                    ? routeData[0].name
-                    : "Start"
+                startName,
+
+            duration:
+                0,
+
+            cost:
+                0
+
         });
 
 
         /*
+         * -----------------------------------------------
          * OUTBOUND BUS
+         * -----------------------------------------------
          */
 
         itinerary.push({
 
-            type: "bus",
+            type:
+                "bus",
 
             name:
                 `Bus to ${trip.destination}`,
@@ -767,30 +1056,45 @@
                 trip.outbound.arrival,
 
             duration:
-                trip.outbound.duration_minutes,
+                Number(
+                    trip.outbound.duration_minutes
+                ),
 
             cost:
-                trip.outbound.cost
+                Number(
+                    trip.outbound.cost
+                )
 
         });
 
 
         /*
+         * -----------------------------------------------
          * DESTINATION
+         * -----------------------------------------------
          */
 
         itinerary.push({
 
-            type: "destination",
+            type:
+                "destination",
 
             name:
-                trip.destination
+                trip.destination,
+
+            duration:
+                0,
+
+            cost:
+                0
 
         });
 
 
         /*
-         * ATTRACTIONS + WALKING
+         * -----------------------------------------------
+         * ATTRACTIONS
+         * -----------------------------------------------
          */
 
         const attractionList =
@@ -798,32 +1102,44 @@
 
 
         attractionList.forEach(
-            (attraction, index) => {
+            (
+                attraction,
+                index
+            ) => {
 
                 itinerary.push({
 
-                    type: "attraction",
+                    type:
+                        "attraction",
 
                     name:
                         attraction.name,
 
                     duration:
-                        attraction.duration_minutes,
+                        Number(
+                            attraction.duration_minutes
+                        ),
 
                     cost:
-                        attraction.cost,
+                        Number(
+                            attraction.cost
+                        ),
 
                     lat:
-                        attraction.lat,
+                        Number(
+                            attraction.lat
+                        ),
 
                     lon:
-                        attraction.lon
+                        Number(
+                            attraction.lon
+                        )
 
                 });
 
 
                 /*
-                 * WALK TO NEXT ATTRACTION
+                 * Walking leg
                  */
 
                 if (
@@ -832,7 +1148,7 @@
                     attractionList.length - 1
                 ) {
 
-                    const nextAttraction =
+                    const next =
                         attractionList[
                             index + 1
                         ];
@@ -840,30 +1156,44 @@
 
                     const distance =
                         haversineDistance(
-                            attraction.lat,
-                            attraction.lon,
-                            nextAttraction.lat,
-                            nextAttraction.lon
-                        );
 
+                            Number(
+                                attraction.lat
+                            ),
 
-                    const walkTime =
-                        walkingTime(
-                            distance
+                            Number(
+                                attraction.lon
+                            ),
+
+                            Number(
+                                next.lat
+                            ),
+
+                            Number(
+                                next.lon
+                            )
+
                         );
 
 
                     itinerary.push({
 
-                        type: "walk",
+                        type:
+                            "walk",
 
-                        name: "Walk",
+                        name:
+                            "Walk",
 
                         duration:
-                            walkTime,
+                            walkingTime(
+                                distance
+                            ),
 
                         distance:
-                            distance
+                            distance,
+
+                        cost:
+                            0
 
                     });
 
@@ -874,18 +1204,138 @@
 
 
         /*
+         * -----------------------------------------------
+         * WAIT FOR RETURN BUS
+         * -----------------------------------------------
+         */
+
+        let timeAtAttractions = 0;
+
+
+        attractionList.forEach(
+            (
+                attraction,
+                index
+            ) => {
+
+                timeAtAttractions +=
+                    Number(
+                        attraction.duration_minutes
+                    );
+
+
+                if (
+                    index
+                    <
+                    attractionList.length - 1
+                ) {
+
+                    const next =
+                        attractionList[
+                            index + 1
+                        ];
+
+
+                    const distance =
+                        haversineDistance(
+
+                            Number(
+                                attraction.lat
+                            ),
+
+                            Number(
+                                attraction.lon
+                            ),
+
+                            Number(
+                                next.lat
+                            ),
+
+                            Number(
+                                next.lon
+                            )
+
+                        );
+
+
+                    timeAtAttractions +=
+                        walkingTime(
+                            distance
+                        );
+
+                }
+
+            }
+        );
+
+
+        const attractionFinish =
+            new Date(
+                trip.outbound.arrival
+            );
+
+
+        attractionFinish.setTime(
+            attractionFinish.getTime()
+            +
+            timeAtAttractions
+            * 60000
+        );
+
+
+        const returnDeparture =
+            new Date(
+                trip.return.departure
+            );
+
+
+        const waitMinutes =
+            Math.max(
+                0,
+                (
+                    returnDeparture
+                    -
+                    attractionFinish
+                ) / 60000
+            );
+
+
+        if (
+            waitMinutes > 0
+        ) {
+
+            itinerary.push({
+
+                type:
+                    "wait",
+
+                name:
+                    "Wait for bus",
+
+                duration:
+                    waitMinutes,
+
+                cost:
+                    0
+
+            });
+
+        }
+
+
+        /*
+         * -----------------------------------------------
          * RETURN BUS
+         * -----------------------------------------------
          */
 
         itinerary.push({
 
-            type: "bus",
+            type:
+                "bus",
 
             name:
-                `Bus to ${
-                    routeData[0]?.name
-                    || "Start"
-                }`,
+                `Bus to ${startName}`,
 
             departure:
                 trip.return.departure,
@@ -894,53 +1344,82 @@
                 trip.return.arrival,
 
             duration:
-                trip.return.duration_minutes,
+                Number(
+                    trip.return.duration_minutes
+                ),
 
             cost:
-                trip.return.cost
+                Number(
+                    trip.return.cost
+                )
 
         });
 
 
         /*
+         * -----------------------------------------------
          * FINISH
+         * -----------------------------------------------
          */
 
         itinerary.push({
 
-            type: "finish",
+            type:
+                "finish",
 
             name:
-                routeData[0]?.name
-                || "Start"
+                startName,
+
+            duration:
+                0,
+
+            cost:
+                0
 
         });
 
 
         /*
+         * -----------------------------------------------
          * ROUTE WIDTH
+         * -----------------------------------------------
          */
 
         route.style.width =
             Math.max(
-                1100,
-                itinerary.length * 175
-            ) + "px";
+                1200,
+                itinerary.length * 190
+            )
+            + "px";
 
 
         /*
-         * CREATE ITEMS
+         * -----------------------------------------------
+         * RESOURCE TRACKING
+         * -----------------------------------------------
+         */
+
+        let elapsedTime = 0;
+
+        let spentMoney = 0;
+
+
+        /*
+         * -----------------------------------------------
+         * RENDER EACH ITEM
+         * -----------------------------------------------
          */
 
         itinerary.forEach(
             item => {
 
-                const routeItem =
+                const itemElement =
                     document.createElement(
                         "div"
                     );
 
-                routeItem.className =
+
+                itemElement.className =
                     "route-item";
 
 
@@ -953,123 +1432,170 @@
                         "div"
                     );
 
+
                 name.className =
                     "route-name";
+
 
                 name.textContent =
                     item.name;
 
 
                 /*
-                 * STOP
+                 * DOT
                  */
 
-                const stop =
+                const dot =
                     document.createElement(
                         "div"
                     );
 
-                stop.className =
-                    "stop";
+
+                dot.className =
+                    "route-dot";
 
 
                 /*
                  * DETAILS
                  */
 
-                const detail =
+                const details =
                     document.createElement(
                         "div"
                     );
 
-                detail.className =
-                    "route-detail";
+
+                details.className =
+                    "route-details";
 
 
                 if (
                     item.type === "start"
                 ) {
 
-                    detail.innerHTML =
-                        `
+                    details.innerHTML = `
                         <strong>
                             Start
                         </strong>
-                        `;
+                    `;
 
                 }
+
 
                 else if (
                     item.type === "destination"
                 ) {
 
-                    detail.innerHTML =
-                        `
+                    details.innerHTML = `
                         <strong>
                             Destination
                         </strong>
-                        `;
+                    `;
 
                 }
+
 
                 else if (
                     item.type === "attraction"
                 ) {
 
                     const costText =
-                        Number(item.cost)
-                        === 0
-
+                        item.cost === 0
                             ? "Free"
-
-                            : `£${
-                                formatMoney(
-                                    item.cost
-                                )
-                              }`;
+                            : `£${formatMoney(
+                                item.cost
+                            )}`;
 
 
-                    detail.innerHTML =
-                        `
+                    details.innerHTML = `
+
                         <strong>
                             ${costText}
                         </strong>
 
                         <br>
 
-                        ${formatTime(
-                            item.duration
-                        )}
-                        `;
+                        ${
+                            formatTime(
+                                item.duration
+                            )
+                        }
+
+                    `;
 
                 }
+
 
                 else if (
                     item.type === "walk"
                 ) {
 
-                    detail.innerHTML =
-                        `
+                    details.innerHTML = `
 
-                        ${formatTime(
-                            item.duration
-                        )}
+                        <span class="walk-symbol">
+                            🚶
+                        </span>
+
+                        <strong>
+                            Walk
+                        </strong>
 
                         <br>
 
-                        ${item.distance.toFixed(
-                            2
-                        )} km
-                        `;
+                        ${
+                            formatTime(
+                                item.duration
+                            )
+                        }
+
+                        <br>
+
+                        ${
+                            item.distance.toFixed(2)
+                        }
+                        km
+
+                    `;
 
                 }
+
+
+                else if (
+                    item.type === "wait"
+                ) {
+
+                    details.innerHTML = `
+
+                        <span class="wait-symbol">
+                            ⏱
+                        </span>
+
+                        <strong>
+                            Wait
+                        </strong>
+
+                        <br>
+
+                        ${
+                            formatTime(
+                                item.duration
+                            )
+                        }
+
+                    `;
+
+                }
+
 
                 else if (
                     item.type === "bus"
                 ) {
 
-                    detail.innerHTML =
-                        `
+                    details.innerHTML = `
+
+                        <span class="bus-symbol">
+                            🚌
+                        </span>
 
                         <br>
 
@@ -1099,60 +1625,160 @@
 
                         <br>
 
-                        £${
-                            formatMoney(
-                                item.cost
-                            )
-                        }
-                        `;
+                        £${formatMoney(
+                            item.cost
+                        )}
+
+                    `;
 
                 }
+
 
                 else if (
                     item.type === "finish"
                 ) {
 
-                    detail.innerHTML =
-                        `
+                    details.innerHTML = `
                         <strong>
                             Finish
                         </strong>
-                        `;
+                    `;
 
                 }
 
 
                 /*
-                 * ADD TO ROUTE
+                 * -----------------------------------------
+                 * UPDATE TIME
+                 * -----------------------------------------
                  */
 
-                routeItem.appendChild(
+                elapsedTime +=
+                    Number(
+                        item.duration || 0
+                    );
+
+
+                /*
+                 * -----------------------------------------
+                 * UPDATE MONEY
+                 * -----------------------------------------
+                 */
+
+                if (
+                    item.type === "bus"
+                    ||
+                    item.type === "attraction"
+                ) {
+
+                    spentMoney +=
+                        Number(
+                            item.cost || 0
+                        );
+
+                }
+
+
+                /*
+                 * -----------------------------------------
+                 * REMAINING
+                 * -----------------------------------------
+                 */
+
+                const remainingTime =
+                    Math.max(
+                        0,
+                        maxTime - elapsedTime
+                    );
+
+
+                const remainingMoney =
+                    unlimitedBudget
+                        ? null
+                        : Math.max(
+                            0,
+                            Number(budget)
+                            - spentMoney
+                        );
+
+
+                const resources =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                resources.className =
+                    "resource-left";
+
+
+                resources.innerHTML = `
+
+                    <div class="resource-label">
+                        Time Left
+                    </div>
+
+                    <div class="resource-value">
+                        ${
+                            formatTime(
+                                remainingTime
+                            )
+                        }
+                    </div>
+
+                    <div class="resource-label">
+                        Money Left
+                    </div>
+
+                    <div class="resource-value">
+                        ${
+                            unlimitedBudget
+                                ? "£Unlimited"
+                                : "£"
+                                  + formatMoney(
+                                      remainingMoney
+                                    )
+                        }
+                    </div>
+
+                `;
+
+
+                /*
+                 * -----------------------------------------
+                 * APPEND
+                 * -----------------------------------------
+                 */
+
+                itemElement.appendChild(
                     name
                 );
 
-                routeItem.appendChild(
-                    stop
+                itemElement.appendChild(
+                    dot
                 );
 
-                routeItem.appendChild(
-                    detail
+                itemElement.appendChild(
+                    details
+                );
+
+                itemElement.appendChild(
+                    resources
                 );
 
                 route.appendChild(
-                    routeItem
+                    itemElement
                 );
 
             }
         );
 
-    }
 
-
-    /*
-     * TOTALS
-     */
-
-    if (trip) {
+        /*
+         * -----------------------------------------------
+         * TOTALS
+         * -----------------------------------------------
+         */
 
         const totalTime =
             Number(
@@ -1168,10 +1794,6 @@
             );
 
 
-        /*
-         * TIME LEFT
-         */
-
         const timeLeft =
             Math.max(
                 0,
@@ -1179,86 +1801,559 @@
             );
 
 
-        /*
-         * COST LEFT
-         */
-
-        let costLeft = 0;
-
-
-        if (!unlimitedBudget) {
-
-            costLeft =
-                Math.max(
+        const costLeft =
+            unlimitedBudget
+                ? null
+                : Math.max(
                     0,
-                    Number(budgetValue)
+                    Number(budget)
                     - totalCost
                 );
 
+
+        document.getElementById(
+            "totals"
+        ).innerHTML = `
+
+            <div>
+                <strong>
+                    Total Time:
+                </strong>
+
+                ${
+                    formatTime(
+                        totalTime
+                    )
+                }
+            </div>
+
+            <div>
+                <strong>
+                    Time Left:
+                </strong>
+
+                ${
+                    formatTime(
+                        timeLeft
+                    )
+                }
+            </div>
+
+            <div>
+                <strong>
+                    Total Cost:
+                </strong>
+
+                £${
+                    formatMoney(
+                        totalCost
+                    )
+                }
+            </div>
+
+            <div>
+                <strong>
+                    Cost Left:
+                </strong>
+
+                ${
+                    unlimitedBudget
+                        ? "£Unlimited"
+                        : "£"
+                          + formatMoney(
+                              costLeft
+                            )
+                }
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       MAP
+       ===================================================== */
+
+    const map =
+        L.map(
+            "map",
+            {
+                zoomControl:
+                    true,
+
+                attributionControl:
+                    true
+            }
+        );
+
+
+    /*
+     * Start with Scotland.
+     */
+
+    map.setView(
+        [
+            56.4907,
+            -4.2026
+        ],
+        7
+    );
+
+
+    /*
+     * Use the standard OpenStreetMap tile endpoint.
+     */
+
+    L.tileLayer(
+        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            minZoom: 3,
+
+            maxZoom: 19,
+
+            tileSize: 256,
+
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }
+    ).addTo(
+        map
+    );
 
 
-        /*
-         * DISPLAY
-         */
+    /*
+     * Give Leaflet several opportunities to calculate
+     * the final container size.
+     */
 
-        document.getElementById(
-            "time-used"
-        ).textContent =
-            formatTime(
-                totalTime
-            );
+    function refreshMap() {
 
+        map.invalidateSize({
+            pan: false
+        });
 
-        document.getElementById(
-            "time-left"
-        ).textContent =
-            formatTime(
-                timeLeft
-            );
+    }
 
 
-        document.getElementById(
-            "cost-used"
-        ).textContent =
-            "£" + formatMoney(
-                totalCost
-            );
+    refreshMap();
 
 
-        document.getElementById(
-            "cost-left"
-        ).textContent =
-            unlimitedBudget
-                ? "£Unlimited"
-                : "£" + formatMoney(
-                    costLeft
+    setTimeout(
+        refreshMap,
+        100
+    );
+
+
+    setTimeout(
+        refreshMap,
+        500
+    );
+
+
+    setTimeout(
+        refreshMap,
+        1000
+    );
+
+
+    window.addEventListener(
+        "resize",
+        refreshMap
+    );
+
+
+    /*
+     * Plot attraction markers.
+     */
+
+    const mapPoints = [];
+
+
+    if (trip) {
+
+        const attractions =
+            trip.attractions
+            || [];
+
+
+        attractions.forEach(
+            (
+                attraction,
+                index
+            ) => {
+
+                const lat =
+                    Number(
+                        attraction.lat
+                    );
+
+
+                const lon =
+                    Number(
+                        attraction.lon
+                    );
+
+
+                if (
+                    Number.isNaN(lat)
+                    ||
+                    Number.isNaN(lon)
+                ) {
+
+                    return;
+
+                }
+
+
+                const marker =
+                    L.marker(
+                        [
+                            lat,
+                            lon
+                        ]
+                    ).addTo(
+                        map
+                    );
+
+
+                marker.bindPopup(
+                    `
+                    <strong>
+                        ${attraction.name}
+                    </strong>
+
+                    <br><br>
+
+                    ${
+                        Number(
+                            attraction.cost
+                        ) === 0
+                            ? "Free"
+                            : "£"
+                              + formatMoney(
+                                  attraction.cost
+                                )
+                    }
+
+                    <br>
+
+                    ${
+                        formatTime(
+                            attraction.duration_minutes
+                        )
+                    }
+                    `
                 );
 
-    }
-    else {
 
-        document.getElementById(
-            "time-used"
-        ).textContent =
-            "N/A";
+                mapPoints.push(
+                    [
+                        lat,
+                        lon
+                    ]
+                );
 
-        document.getElementById(
-            "time-left"
-        ).textContent =
-            "N/A";
-
-        document.getElementById(
-            "cost-used"
-        ).textContent =
-            "N/A";
-
-        document.getElementById(
-            "cost-left"
-        ).textContent =
-            "N/A";
+            }
+        );
 
     }
+
+
+    /*
+     * Draw walking route between attractions.
+     */
+
+    if (
+        mapPoints.length > 1
+    ) {
+
+        const walkingLine =
+            L.polyline(
+                mapPoints,
+                {
+                    color:
+                        "#b64b2a",
+
+                    weight:
+                        4,
+
+                    opacity:
+                        0.8
+                }
+            ).addTo(
+                map
+            );
+
+
+        map.fitBounds(
+            walkingLine.getBounds(),
+            {
+                padding:
+                    [
+                        40,
+                        40
+                    ]
+            }
+        );
+
+    }
+    else if (
+        mapPoints.length === 1
+    ) {
+
+        map.setView(
+            mapPoints[0],
+            14
+        );
+
+    }
+
+
+    /*
+     * Recalculate after fitting the route.
+     */
+
+    setTimeout(
+        refreshMap,
+        100
+    );
+
+
+    setTimeout(
+        refreshMap,
+        500
+    );
+
+
+    /* =====================================================
+       LIVE BUSES
+       ===================================================== */
+
+    const liveBusMarkers = {};
+
+
+    async function updateLiveBuses() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/live-vehicles"
+                );
+
+
+            if (!response.ok) {
+
+                return;
+
+            }
+
+
+            const buses =
+                await response.json();
+
+
+            if (
+                !Array.isArray(buses)
+            ) {
+
+                return;
+
+            }
+
+
+            buses.forEach(
+                bus => {
+
+                    const id =
+                        bus.id;
+
+
+                    const lat =
+                        Number(
+                            bus.lat
+                        );
+
+
+                    const lon =
+                        Number(
+                            bus.lon
+                        );
+
+
+                    const bearing =
+                        Number(
+                            bus.bearing || 0
+                        );
+
+
+                    const tripName =
+                        bus.trip_name
+                        ||
+                        "Active Route";
+
+
+                    if (
+                        !Number.isFinite(lat)
+                        ||
+                        !Number.isFinite(lon)
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const busIcon =
+                        L.divIcon({
+
+                            className:
+                                "live-bus-icon",
+
+                            html: `
+                                <div
+                                    style="
+                                        width: 36px;
+                                        height: 36px;
+
+                                        border-radius: 50%;
+
+                                        background: #b64b2a;
+
+                                        color: white;
+
+                                        border: 2px solid white;
+
+                                        display: flex;
+
+                                        align-items: center;
+
+                                        justify-content: center;
+
+                                        font-size: 17px;
+
+                                        box-shadow:
+                                            0 3px 6px
+                                            rgba(
+                                                0,
+                                                0,
+                                                0,
+                                                0.3
+                                            );
+
+                                        transform:
+                                            rotate(
+                                                ${bearing}deg
+                                            );
+                                    "
+                                >
+                                    🚌
+                                </div>
+                            `,
+
+                            iconSize:
+                                [
+                                    36,
+                                    36
+                                ],
+
+                            iconAnchor:
+                                [
+                                    18,
+                                    18
+                                ]
+
+                        });
+
+
+                    if (
+                        liveBusMarkers[id]
+                    ) {
+
+                        liveBusMarkers[id]
+                            .setLatLng(
+                                [
+                                    lat,
+                                    lon
+                                ]
+                            );
+
+                        liveBusMarkers[id]
+                            .setIcon(
+                                busIcon
+                            );
+
+                    }
+                    else {
+
+                        const marker =
+                            L.marker(
+                                [
+                                    lat,
+                                    lon
+                                ],
+                                {
+                                    icon:
+                                        busIcon
+                                }
+                            ).addTo(
+                                map
+                            );
+
+
+                        marker.bindPopup(
+                            `
+                            <strong>
+                                Bus
+                            </strong>
+
+                            <br>
+
+                            ID:
+                            ${id}
+
+                            <br>
+
+                            Trip:
+                            ${tripName}
+                            `
+                        );
+
+
+                        liveBusMarkers[id] =
+                            marker;
+
+                    }
+
+                }
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Live bus update failed:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Live bus updates are optional. If the endpoint
+     * isn't available, the rest of the map still works.
+     */
+
+    updateLiveBuses();
+
+
+    setInterval(
+        updateLiveBuses,
+        8000
+    );
 
 </script>
 
