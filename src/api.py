@@ -4,6 +4,10 @@ from datetime import datetime, date
 
 # RUNS WITH /usr/local/python/bin/python3.13 api.py
 
+#CONSTANTS
+API_BASE_URL = "https://api.ember.to/v1"
+TARGET_CITIES = ["Edinburgh", "Glasgow", "Dundee", "Aberdeen", "Perth"]
+#time and cost
 def fetch_hub_locations():
     """
     Fetches all Ember bus stops and filters for the main hubs 
@@ -63,11 +67,20 @@ def fetch_journeys(origin_id, destination_id, travel_date=None):
         
     return journeys
 
-def load_attractions_csv(filepath="attractions.csv"):
+from pathlib import Path
+
+from pathlib import Path
+import csv
+
+def load_attractions_csv(filepath=None):
     """
-    Loads attractions from a CSV file and returns them as a structured list.
-    Expected CSV columns: name, city, interest, cost, duration_minutes, lat, lon
+    Loads attractions from the CSV file using the correct column headers:
+    id, destination, attraction, interests, cost_gbp, duration_minutes, latitude, longitude
     """
+    if filepath is None:
+        script_dir = Path(__file__).resolve().parent
+        filepath = script_dir.parent / "data" / "attractions.csv"
+    
     attractions = []
     
     try:
@@ -75,17 +88,19 @@ def load_attractions_csv(filepath="attractions.csv"):
             reader = csv.DictReader(file)
             for row in reader:
                 attractions.append({
-                    "name": row["name"],
-                    "city": row["city"],
-                    "interest": row["interest"].lower(),
-                    "cost": float(row["cost"]),
+                    "name": row["attraction"],
+                    "city": row["destination"],
+                    "interest": row["interests"].lower(),
+                    "cost": float(row["cost_gbp"]),
                     "duration_minutes": int(row["duration_minutes"]),
-                    "lat": float(row["lat"]),
-                    "lon": float(row["lon"])
+                    "lat": float(row["latitude"]),
+                    "lon": float(row["longitude"])
                 })
         print(f"Successfully loaded {len(attractions)} attractions from {filepath}.")
     except FileNotFoundError:
-        print(f"Warning: {filepath} not found. Make sure 'attractions.csv' is in the same folder.")
+        print(f"ERROR: Could not find attractions.csv at: {filepath}")
+    except KeyError as e:
+        print(f"ERROR: Missing expected column in CSV: {e}")
         
     return attractions
 
