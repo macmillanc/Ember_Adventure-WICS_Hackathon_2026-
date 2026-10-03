@@ -1,68 +1,98 @@
-<!DOCTYPE html> <html lang="en"> <head> 
-<meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<link rel="stylesheet" href="index.css"> 
-<title>Ember Bus Epic Tour Guide</title> </head> <body>
-<h1>Ember Bus Tour Guide</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<p>
-    Tell us a little about your trip and we'll help you plan your journey.
-</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<form action="loading.html" method="GET">
+    <link rel="stylesheet" href="index.css">
 
-    <label for="starting-position">
-        <strong>Starting position</strong>
-    </label>
-    <br>
+    <title>Ember Bus Epic Tour Guide</title>
+</head>
 
-    <select id="starting-position" name="starting-position" required>
-        <option value="" disabled selected>Select a location</option>
-        <option value="Aberdeen">Aberdeen</option>
-        <option value="Dundee">Dundee</option>
-        <option value="Edinburgh">Edinburgh</option>
-        <option value="Glasgow">Glasgow</option>
-        <option value="Perth">Perth</option>
-        <option value="St Andrews">St Andrews</option>
-    </select>
+<body>
 
-    <br><br>
+    <h1>Ember Bus Tour Guide</h1>
 
-    <label for="budget">
-        <strong>Maximum budget (£)</strong>
-    </label>
-    <br>
+    <p>
+        Tell us a little about your trip and we'll help you plan your journey.
+    </p>
 
-    <input
-        type="number"
-        id="budget"
-        name="budget"
-        min="0"
-        step="0.01"
-        placeholder="e.g. 50"
-        required
-    >
+    <form action="loading.html" method="GET">
 
-    <br><br>
+        <label for="starting-position">
+            <strong>Starting position</strong>
+        </label>
 
-    <label for="interests">
-        <strong>What are you interested in?</strong>
-    </label>
-    <br>
+        <br>
 
-    <select id="interests" name="interests" required>
-        <option value="" disabled selected>Select an interest</option>
-        <option value="Beaches">Beaches</option>
-        <option value="History">History</option>
-        <option value="Food">Food</option>
-        <option value="Hiking">Hiking</option>
-        <option value="Nature">Nature</option>
-        <option value="Shopping">Shopping</option>
-    </select>
+        <select
+            id="starting-position"
+            name="starting-position"
+            required
+        >
+            <option value="" disabled selected>
+                Select a location
+            </option>
 
-    <br><br>
+            <option value="Aberdeen">Aberdeen</option>
+            <option value="Dundee">Dundee</option>
+            <option value="Edinburgh">Edinburgh</option>
+            <option value="Glasgow">Glasgow</option>
+            <option value="Perth">Perth</option>
+        </select>
 
-    <button type="submit">Plan My Tour</button>
+        <br><br>
 
-</form>
 
-</body> </html>
+        <label for="budget">
+            <strong>Maximum budget (£)</strong>
+        </label>
+
+        <br>
+
+        <input
+            type="number"
+            id="budget"
+            name="budget"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 50"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="interests">
+            <strong>What are you interested in?</strong>
+        </label>
+
+        <br>
+
+        <select
+            id="interests"
+            name="interests"
+            multiple
+            required
+        >
+            <option value="Beaches">Beaches</option>
+            <option value="History">History</option>
+            <option value="Food">Food</option>
+            <option value="Hiking">Hiking</option>
+            <option value="Nature">Nature</option>
+            <option value="Shopping">Shopping</option>
+        </select>
+
+        <br><br>
+
+
+        <button type="submit">
+            Plan My Tour
+        </button>
+
+    </form>
+
+</body>
+
+</html>

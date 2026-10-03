@@ -1,0 +1,489 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Ember Bus Route</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background-color: #d6bea0;
+
+        font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .postcard {
+        width: 96%;
+        max-width: 1450px;
+        min-height: 750px;
+
+        background-color: #f8efd9;
+
+        border: 14px solid white;
+        outline: 3px solid #8b5e3c;
+
+        padding: 65px;
+
+        box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.25);
+
+        position: relative;
+    }
+
+    .postcard::before {
+        content: "";
+
+        position: absolute;
+
+        top: 25px;
+        left: 25px;
+        right: 25px;
+        bottom: 25px;
+
+        border: 3px dashed #c49a6c;
+
+        pointer-events: none;
+    }
+
+    h1 {
+        text-align: center;
+
+        font-size: 55px;
+
+        color: #b64b2a;
+
+        margin: 10px 0 5px;
+
+        letter-spacing: 3px;
+    }
+
+    .subtitle {
+        text-align: center;
+
+        font-size: 22px;
+
+        color: #70513c;
+
+        margin-bottom: 130px;
+    }
+
+
+    /* ROUTE */
+
+    .route-container {
+        width: 100%;
+
+        overflow-x: auto;
+
+        padding-bottom: 20px;
+    }
+
+    .route {
+        width: 100%;
+
+        min-width: 850px;
+
+        position: relative;
+
+        height: 150px;
+    }
+
+
+    /* THIN ARROW */
+
+    .arrow {
+        position: absolute;
+
+        left: 0;
+        right: 45px;
+
+        top: 75px;
+
+        height: 10px;
+
+        background-color: #b64b2a;
+
+        border-radius: 10px;
+    }
+
+    .arrow::after {
+        content: "";
+
+        position: absolute;
+
+        right: -45px;
+
+        top: -15px;
+
+        width: 0;
+        height: 0;
+
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+
+        border-left: 50px solid #b64b2a;
+    }
+
+
+    /* DESTINATION NAMES */
+
+    .destinations {
+        position: absolute;
+
+        left: 0;
+        right: 0;
+
+        top: 0;
+
+        display: grid;
+
+        z-index: 5;
+    }
+
+    .destination {
+        text-align: center;
+
+        font-size: 22px;
+
+        font-weight: bold;
+
+        color: #493527;
+
+        padding: 0 10px;
+
+        overflow-wrap: break-word;
+    }
+
+
+    /* CIRCLES */
+
+    .stops {
+        position: absolute;
+
+        left: 0;
+        right: 45px;
+
+        top: 63px;
+
+        display: grid;
+
+        z-index: 10;
+    }
+
+    .stop {
+        width: 34px;
+        height: 34px;
+
+        justify-self: center;
+
+        background-color: #f8efd9;
+
+        border: 7px solid #b64b2a;
+
+        border-radius: 50%;
+    }
+
+
+    /* TRIP INFORMATION */
+
+    .trip-info {
+        margin-top: 100px;
+
+        display: flex;
+
+        justify-content: center;
+
+        gap: 100px;
+
+        font-size: 21px;
+
+        color: #493527;
+    }
+
+    .trip-info strong {
+        color: #b64b2a;
+    }
+
+
+    /* BUTTON */
+
+    button {
+        display: block;
+
+        margin: 45px auto 0;
+
+        padding: 15px 35px;
+
+        background-color: #b64b2a;
+
+        color: white;
+
+        border: none;
+
+        border-radius: 6px;
+
+        font-family: Georgia, "Times New Roman", serif;
+
+        font-size: 18px;
+
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #8f3820;
+    }
+
+
+    @media (max-width: 800px) {
+
+        .postcard {
+            padding: 40px 25px;
+        }
+
+        h1 {
+            font-size: 38px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+
+            margin-bottom: 80px;
+        }
+
+        .destination {
+            font-size: 18px;
+        }
+
+        .trip-info {
+            flex-direction: column;
+
+            gap: 10px;
+
+            text-align: center;
+        }
+    }
+</style>
+
+</head> <body>
+<div class="postcard">
+
+    <h1>Greetings from Scotland!</h1>
+
+    <p class="subtitle">
+        Your Ember Bus adventure
+    </p>
+
+
+    <div class="route-container">
+
+        <div class="route">
+
+            <!-- DESTINATION NAMES -->
+            <div
+                class="destinations"
+                id="destinations">
+            </div>
+
+
+            <!-- ONE CONTINUOUS ARROW -->
+            <div class="arrow"></div>
+
+
+            <!-- CIRCLES -->
+            <div
+                class="stops"
+                id="stops">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TRIP INFORMATION -->
+
+    <div class="trip-info">
+
+        <div>
+            <strong>Interest:</strong>
+            <span id="interest"></span>
+        </div>
+
+        <div>
+            <strong>Duration:</strong>
+            <span id="duration"></span> days
+        </div>
+
+        <div>
+            <strong>Budget:</strong>
+            £<span id="budget"></span>
+        </div>
+
+    </div>
+
+
+    <button onclick="window.location.href='index.html'">
+        Plan Another Trip
+    </button>
+
+</div>
+
+
+<script>
+
+    /*
+     * GET THE INFORMATION FROM THE URL
+     *
+     * The duration is calculated by your
+     * separate file, so this page only
+     * reads the value.
+     */
+
+    const params = new URLSearchParams(window.location.search);
+
+    const startingLocation =
+        params.get("starting-position") || "St Andrews";
+
+    const interest =
+        params.get("interests") || "History";
+
+    const budget =
+        params.get("budget") || "50";
+
+    const duration =
+        parseInt(params.get("duration")) || 1;
+
+    const places =
+        parseInt(params.get("places")) || duration;
+
+
+    /*
+     * AVAILABLE DESTINATIONS
+     *
+     * Your separate route-generation
+     * system can eventually replace this
+     * with its generated locations.
+     */
+
+    const availableLocations = [
+        "St Andrews",
+        "Dundee",
+        "Perth",
+        "Edinburgh",
+        "Glasgow",
+        "Stirling",
+        "Aberdeen",
+        "Pitlochry",
+        "Oban",
+        "Fort William"
+    ];
+
+
+    /*
+     * CREATE THE ROUTE
+     */
+
+    let route = [startingLocation];
+
+
+    for (const location of availableLocations) {
+
+        if (route.length >= places) {
+            break;
+        }
+
+        if (location !== startingLocation) {
+            route.push(location);
+        }
+    }
+
+
+    /*
+     * DISPLAY INFORMATION
+     */
+
+    document.getElementById("interest").textContent =
+        interest;
+
+    document.getElementById("duration").textContent =
+        duration;
+
+    document.getElementById("budget").textContent =
+        budget;
+
+
+    /*
+     * GET THE ROUTE ELEMENTS
+     */
+
+    const destinations =
+        document.getElementById("destinations");
+
+    const stops =
+        document.getElementById("stops");
+
+
+    /*
+     * MAKE BOTH ROWS HAVE THE SAME
+     * NUMBER OF COLUMNS AS DESTINATIONS
+     */
+
+    const columns =
+        `repeat(${route.length}, 1fr)`;
+
+    destinations.style.gridTemplateColumns =
+        columns;
+
+    stops.style.gridTemplateColumns =
+        columns;
+
+
+    /*
+     * MAKE THE ROUTE WIDER WHEN
+     * THERE ARE MANY DESTINATIONS
+     */
+
+    if (route.length > 5) {
+
+        document.querySelector(".route").style.minWidth =
+            (route.length * 170) + "px";
+    }
+
+
+    /*
+     * CREATE DESTINATIONS AND CIRCLES
+     */
+
+    route.forEach((location) => {
+
+        const destination =
+            document.createElement("div");
+
+        destination.className =
+            "destination";
+
+        destination.textContent =
+            location;
+
+        destinations.appendChild(destination);
+
+
+        const stop =
+            document.createElement("div");
+
+        stop.className =
+            "stop";
+
+        stops.appendChild(stop);
+
+    });
+
+</script>
+
+</body> </html>
